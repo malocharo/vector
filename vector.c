@@ -44,7 +44,7 @@ void vector_erase_more(vector *v, int index1, int index2)
     if(index2 < index1)
     {
         int tmp = index1;
-        index 1 = index2;
+        index1 = index2;
         index2 = tmp;
     }
 
