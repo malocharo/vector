@@ -15,6 +15,7 @@ int  vector_size(vector *);
 int  vector_max_size(vector *);
 void vector_del(vector *);
 void vector_erase(vector *,int);
+
 void vector_resize(vector *, int);
 void vector_shrink(vector *);
 void vector_add(vector *, void *);
@@ -24,18 +25,72 @@ void vector_add_begin(vector *,void *);
 void vector_display(vector *);
 int  iterator_begin(vector *);
 int  iterator_end(vector *);
+//<-------------------------NEVER TESTED-------------------------------------------->
+void *vector_get(vector *, int);
+void vector_swap_elem(vector *,int,int);
+void vector_swap_vector(vector *, vector *);
+void vector_erase_more(vector *, int, int);
 
 int main()
 {
-    vector *v = NULL;
-    vector *t = NULL;
 
-    vector_init(&v);
-    vector_init(&t);
-    vector_add(&v,&t);
-    vector_display(&v);
-    vector_display(&t);
     exit(0);
+}
+void vector_erase_more(vector *v, int index1, int index2)
+{int i;
+    if(index1 > v->_nb_elem || index2 > v->_nb_elem) return;
+    if(index1 < 0 || index2 < 0) return;
+    if(index1 == index2) vector_erase(&v,index1);
+    if(index2 < index1)
+    {
+        int tmp = index1;
+        index 1 = index2;
+        index2 = tmp;
+    }
+
+    for(i = index1;i<index2;i++)
+    {
+        vector_erase(&v,i);
+    }
+
+
+}
+void vector_swap_vector(vector *v, vector *c)
+{int i;
+    if(!v || !c) return;
+    vector a;
+    vector_init(&a);
+    for(i=0;i < v->_nb_elem;i++)
+    {
+        vector_add(&a,v->_data[i]);
+    }
+
+    for(i = 0;i<c->_nb_elem;i++)
+    {
+        vector_add(&v,c->_data[i]);
+    }
+    for(i =0;i<a._nb_elem;i++)
+    {
+        vector_add(&c,a._data[i]);
+    }
+    vector_del(&a);//TODO check if it works m8
+}
+void vector_swap_elem(vector *v, int index1,int index2)
+{
+    if(index1 > v->_nb_elem || index2 > v->_nb_elem) return;
+    if(index1 < 0 || index2 < 0) return;
+
+    vector_add(&v,v->_data[index2]);
+    v->_data[index2] = NULL;
+    v->_data[index2] = v->_data[index1];
+    v->_data[index1] = NULL;
+    v->_data[index1] = v->_data[iterator_end(&v)];// TODO test
+}
+void *vector_get(vector *v, int index)
+{
+    if(index > v->_nb_elem) return;
+
+    return v->_data[index];
 }
 void vector_display(vector *v)
 {
